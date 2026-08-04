@@ -3,8 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import { Request, Response } from "express";
 import { PORT } from "./config/dotenv.js";
-import { connectDb } from "./config/db.js";
 import { logger } from "./config/logger.js";
+import authRouter from "./modules/auth/auth.routes.js";
 
 const app = express();
 
@@ -33,7 +33,8 @@ app.get("/api/v1/health", (req: Request, res: Response) => {
   });
 });
 
-await connectDb();
+app.use("/api/v1/auth", authRouter);
+
 app.listen(PORT, () => {
   logger.info(`server is runnig on http://localhost:${PORT}`);
 });
